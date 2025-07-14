@@ -17,11 +17,13 @@
   },
   "scripts": {
     "clean": "rm -rf dist && echo 'Done.'",
-    "dev": "bun src/index.ts",
+    "dev": "bun src/main.ts",
     "lint": "eslint --fix"
   },
   "dependencies": {
+    "googleapis": "^150.0.1",
     "mongodb": "^6.17.0",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "zod": "^4.0.5"
   }
 }

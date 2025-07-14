@@ -40,7 +40,7 @@ export default [
       'prettier/prettier': [
         1,
         {
-          endOfLine: 'lf',
+          endOfLine: 'crlf',
           printWidth: 180,
           semi: true,
           singleQuote: true,
