@@ -20,6 +20,7 @@ serve({
     '/api/status': { GET: () => new CustomResponse('OK') },
 
     '/api/inventory': {
+      OPTIONS: () => new CustomResponse(null, { status: 204 }),
       GET: async () => {
         const inventoryItems = await inventoryRepo.list();
         return new CustomResponse(JSON.stringify(inventoryItems));
@@ -33,6 +34,16 @@ serve({
           return new CustomResponse(JSON.stringify({ message: 'Item added successfully' }), { status: 201 });
         } else {
           return new CustomResponse(JSON.stringify({ message: 'Item already exists' }), { status: 409 });
+        }
+      },
+      DELETE: async (req: Request) => {
+        const item = (await req.json()) as { name: string };
+        try {
+          await inventoryRepo.delete(item.name);
+          return new CustomResponse(JSON.stringify({ message: 'Item deleted successfully' }));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          return new CustomResponse(JSON.stringify({ error: message }), { status: 404 });
         }
       },
     },

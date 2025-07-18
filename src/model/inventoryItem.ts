@@ -1,10 +1,10 @@
 export class InventoryItem {
   private readonly name: string;
-  private readonly description: string;
+  private readonly description?: string;
   private readonly quantity: number;
   private readonly threshold: number;
 
-  public constructor(name: string, description: string, quantity: number, threshold: number) {
+  public constructor(name: string, description: string | undefined, quantity: number, threshold: number) {
     this.name = name;
     this.description = description;
     this.quantity = quantity;
@@ -15,7 +15,7 @@ export class InventoryItem {
     return this.name;
   }
 
-  public getDescription(): string {
+  public getDescription(): string | undefined {
     return this.description;
   }
 
