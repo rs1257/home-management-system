@@ -5,12 +5,12 @@ import { logger } from '../utils/logger';
 import { TaskListRepository } from './taskListRepository';
 
 export class TaskRepository implements IRepository<tasks_v1.Schema$Task> {
-  collection = 'shopping';
+  collection = 'Shopping';
   repo = new TaskListRepository();
 
   public async getByName(name: string): Promise<tasks_v1.Schema$Task> {
     const tasks = GoogleTasksSingleton.getInstance();
-    const taskListId = await this.repo.getByName(this.collection);
+    const taskListId = await this.repo.getByTitle(this.collection);
     const {
       data: { items },
     } = await tasks.tasks.list({ tasklist: String(taskListId.id) });
@@ -28,7 +28,7 @@ export class TaskRepository implements IRepository<tasks_v1.Schema$Task> {
     }
 
     const tasks = GoogleTasksSingleton.getInstance();
-    const taskListId = await this.repo.getByName(String(this.collection));
+    const taskListId = await this.repo.getByTitle(String(this.collection));
     const res = await tasks.tasks.insert({ tasklist: String(taskListId.id), requestBody: item });
     logger.info(res);
     return true;
@@ -36,7 +36,7 @@ export class TaskRepository implements IRepository<tasks_v1.Schema$Task> {
 
   public async delete(name: string): Promise<boolean> {
     const tasks = GoogleTasksSingleton.getInstance();
-    const taskListId = await this.repo.getByName(this.collection);
+    const taskListId = await this.repo.getByTitle(this.collection);
     const {
       data: { items },
     } = await tasks.tasks.list({ tasklist: String(taskListId.id) });
@@ -54,7 +54,7 @@ export class TaskRepository implements IRepository<tasks_v1.Schema$Task> {
 
   public async list(): Promise<tasks_v1.Schema$Task[]> {
     const tasks = GoogleTasksSingleton.getInstance();
-    const taskListId = await this.repo.getByName(this.collection);
+    const taskListId = await this.repo.getByTitle(this.collection);
     const {
       data: { items },
     } = await tasks.tasks.list({ tasklist: String(taskListId.id) });
